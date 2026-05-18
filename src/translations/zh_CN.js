@@ -60,6 +60,12 @@ export const zh_CN = {
         history: {
             label: "手牌历史",
             tenhouLinkText: "【天凤牌理】",
+            discardedLabel: "打出",
+            yourDiscard: "你打出",
+            optimalDiscard: "最佳舍牌",
+            suboptimalDiscard: "非最佳舍牌",
+            drawLabel: "摸牌",
+            shantenLabel: "向听数",
             concise: {
                 discard: "舍牌{{tile}}",
                 acceptance: "（{{count}}枚进张）。",

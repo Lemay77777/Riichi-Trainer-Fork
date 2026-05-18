@@ -60,6 +60,12 @@ export const en = {
         history: {
             label: "Hand History",
             tenhouLinkText: "[Accepted Tiles]",
+            discardedLabel: "Discarded",
+            yourDiscard: "Your Discard",
+            optimalDiscard: "Optimal Discard",
+            suboptimalDiscard: "Suboptimal Discard",
+            drawLabel: "Draw",
+            shantenLabel: "Shanten",
             concise: {
                 discard: "Discard: {{tile}}",
                 acceptance: " ({{count}} tile).",
