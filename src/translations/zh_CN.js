@@ -66,6 +66,12 @@ export const zh_CN = {
             suboptimalDiscard: "非最佳舍牌",
             drawLabel: "摸牌",
             shantenLabel: "向听数",
+            ukeireComparison: "可进张比较",
+            gainedUkeireTiles: "+ 最佳增加可进张",
+            uniqueUkeireTiles: "- 舍牌独有可进张",
+            acceptanceNumTag: "可进张数",
+            noticeLabel: "注意",
+            furitenLabel: "振听",
             concise: {
                 discard: "舍牌{{tile}}",
                 acceptance: "（{{count}}枚进张）。",

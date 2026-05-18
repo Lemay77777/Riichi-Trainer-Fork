@@ -49,6 +49,12 @@ class HistoryMessage extends React.Component {
         const isOptimal = data.chosenUkeire.value === data.bestUkeire.value;
         const containerClass = 'ukeire-history-entry p-2 text-left text-dark';
 
+        const hasLoweredShanten = data.chosenUkeire.value <= 0 && data.shanten > 0;
+        const hasExceptionalNoten = data.shanten <= 0 && data.handUkeire.value === 0;
+        const isFuriten = data.isFuriten();
+        const isExhausted = data.shanten > 0 && data.drawnTile === -1;
+        const hasNotices = hasLoweredShanten || hasExceptionalNoten || isFuriten || isExhausted;
+
         return (
             <div className={containerClass} style={{ fontSize: '1.1rem' }}>
                 <Row className="align-items-center mb-2">
@@ -83,11 +89,11 @@ class HistoryMessage extends React.Component {
                     <Row>
                         <Col xs="12" md={spoilers && !isOptimal ? "6" : "12"} className="mb-2 mb-md-0">
                             <div className="p-2 rounded" style={{ backgroundColor: 'rgba(255, 255, 255, 0.15)' }}>
-                                <div className="font-weight-bold text-decoration-underline mb-1 d-flex align-items-center flex-wrap">
+                                <div className="font-weight-bold text-decoration-underline text-dark mb-1 d-flex align-items-center flex-wrap">
                                     <span className="mr-1">{t("history.yourDiscard")}</span>
                                     {this.renderTileImage(data.chosenTile, chosenTileText)}
                                 </div>
-                                <div>Acceptance: <strong>{data.chosenUkeire.value}</strong> {data.chosenUkeire.value === 1 ? 'tile' : 'tiles'}</div>
+                                <div>{t("history.acceptanceNumTag")}: <strong>{data.chosenUkeire.value}</strong></div>
                                 {data.chosenUkeire.value > 0 && (
                                     <div className="mt-2" style={{ opacity: 0.8 }}>
                                         <div className="font-weight-bold mb-1" style={{ fontSize: '0.85rem' }}>Tiles:</div>
@@ -105,11 +111,11 @@ class HistoryMessage extends React.Component {
                         {spoilers && !isOptimal && (
                             <Col xs="12" md="6">
                                 <div className="p-2 rounded border border-success" style={{ backgroundColor: 'rgba(40, 167, 69, 0.1)' }}>
-                                    <div className="font-weight-bold text-success mb-1 d-flex align-items-center flex-wrap">
+                                    <div className="font-weight-bold text-dark mb-1 d-flex align-items-center flex-wrap">
                                         <span className="mr-1">{t("history.optimalDiscard")}</span>
                                         {this.renderTileImage(data.bestTile, bestTileText)}
                                     </div>
-                                    <div>Acceptance: <strong>{data.bestUkeire.value}</strong> {data.bestUkeire.value === 1 ? 'tile' : 'tiles'}</div>
+                                    <div>{t("history.acceptanceNumTag")}: <strong>{data.bestUkeire.value}</strong></div>
                                     {data.bestUkeire.value > 0 && (
                                         <div className="mt-2" style={{ opacity: 0.8 }}>
                                             <div className="font-weight-bold text-success mb-1" style={{ fontSize: '0.85rem' }}>Tiles:</div>
@@ -131,12 +137,12 @@ class HistoryMessage extends React.Component {
                         <Row className="mt-3 pt-3 border-top">
                             <Col xs="12">
                                 <div className="p-2 rounded" style={{ backgroundColor: 'rgba(0, 0, 0, 0.05)', borderLeft: '4px solid #17a2b8' }}>
-                                    <div className="font-weight-bold mb-2 text-decoration-underline">Difference (Ukeire Comparison)</div>
+                                    <div className="font-weight-bold mb-2 text-decoration-underline">{t("history.ukeireComparison")}</div>
                                     <Row>
                                         <Col xs="12" md="6" className="mb-2 mb-md-0">
                                             <div>
                                                 <span className="badge badge-success text-dark px-2 py-1 rounded-pill mb-2 d-inline-block" style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>
-                                                    + Gained by Optimal Play
+                                                    {t("history.gainedUkeireTiles")}
                                                 </span>
                                                 <div className="d-flex flex-wrap align-items-center mt-1">
                                                     {(() => {
@@ -159,7 +165,7 @@ class HistoryMessage extends React.Component {
                                         <Col xs="12" md="6">
                                             <div>
                                                 <span className="badge badge-danger text-dark px-2 py-1 rounded-pill mb-2 d-inline-block" style={{ fontSize: '0.85rem', fontWeight: 'bold' }}>
-                                                    - Unique to Your Play
+                                                    {t("history.uniqueUkeireTiles")}
                                                 </span>
                                                 <div className="d-flex flex-wrap align-items-center mt-1">
                                                     {(() => {
@@ -181,6 +187,33 @@ class HistoryMessage extends React.Component {
                                         </Col>
                                     </Row>
                                 </div>
+                            </Col>
+                        </Row>
+                    )}
+
+                    {hasNotices && (
+                        <Row className="mt-3 pt-3 border-top">
+                            <Col xs="12">
+                                {hasLoweredShanten && (
+                                    <div className="alert alert-danger p-2 mb-2 text-dark" style={{ fontSize: '0.95rem', borderLeft: '4px solid #dc3545', backgroundColor: 'rgba(220, 53, 69, 0.1)' }}>
+                                        <strong>{t("history.noticeLabel")}: </strong> {t(`history.${mode}.loweredShanten`)}
+                                    </div>
+                                )}
+                                {hasExceptionalNoten && (
+                                    <div className="alert alert-danger p-2 mb-2 text-dark" style={{ fontSize: '0.95rem', borderLeft: '4px solid #dc3545', backgroundColor: 'rgba(220, 53, 69, 0.1)' }}>
+                                        <strong>{t("history.noticeLabel")}: </strong> {t(`history.${mode}.exceptionalNoten`)}
+                                    </div>
+                                )}
+                                {isFuriten && (
+                                    <div className="alert alert-warning p-2 mb-2 text-dark" style={{ fontSize: '0.95rem', borderLeft: '4px solid #ffc107', backgroundColor: 'rgba(255, 193, 7, 0.1)' }}>
+                                        <strong>{t("history.furitenLabel")}: </strong> {data.shanten <= 0 ? t(`history.${mode}.furiten`) : t(`history.${mode}.furitenWarning`)}
+                                    </div>
+                                )}
+                                {isExhausted && (
+                                    <div className="alert alert-info p-2 mb-0 text-dark" style={{ fontSize: '0.95rem', borderLeft: '4px solid #17a2b8', backgroundColor: 'rgba(23, 162, 184, 0.1)' }}>
+                                        <strong>{t("history.noticeLabel")}: </strong> {t(`history.${mode}.exhausted`)}
+                                    </div>
+                                )}
                             </Col>
                         </Row>
                     )}

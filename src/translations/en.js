@@ -66,6 +66,12 @@ export const en = {
             suboptimalDiscard: "Suboptimal Discard",
             drawLabel: "Draw",
             shantenLabel: "Shanten",
+            ukeireComparison: "Ukeire Comparison",
+            gainedUkeireTiles: "+ Gained by Optimal Discard",
+            uniqueUkeireTiles: "- Unique to Your Discard",
+            acceptanceNumTag: "Acceptance",
+            noticeLabel: "Notice",
+            furitenLabel: "Furiten",
             concise: {
                 discard: "Discard: {{tile}}",
                 acceptance: " ({{count}} tile).",
