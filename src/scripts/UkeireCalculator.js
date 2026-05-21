@@ -21,7 +21,7 @@ export function calculateDiscardUkeire(hand, remainingTiles, shantenFunction, ba
     // Check the ukeire of each hand that results from each discard
     for (let handIndex = 0; handIndex < convertedHand.length; handIndex++) {
         if (convertedHand[handIndex] === 0) {
-            results[handIndex] = { value: 0, tiles: [] };
+            results[handIndex] = { value: 0, tiles: [], counts: [] };
             continue;
         }
 
@@ -54,6 +54,7 @@ export function calculateUkeire(hand, remainingTiles, shantenFunction, baseShant
 
     let value = 0;
     let tiles = [];
+    let counts = [];
 
     // Check adding every tile to see if it improves the shanten
     for (let addedTile = 1; addedTile < convertedHand.length; addedTile++) {
@@ -66,6 +67,7 @@ export function calculateUkeire(hand, remainingTiles, shantenFunction, baseShant
             // Improves shanten. Add the number of remaining tiles to the ukeire count
             value += convertedTiles[addedTile];
             tiles.push(addedTile);
+            counts.push(convertedTiles[addedTile]);
         }
 
         convertedHand[addedTile]--;
@@ -73,7 +75,8 @@ export function calculateUkeire(hand, remainingTiles, shantenFunction, baseShant
 
     return {
         value,
-        tiles
+        tiles,
+        counts
     };
 }
 
@@ -132,6 +135,7 @@ export function calculateUkeireUpgrades(hand, remainingTiles, shantenFunction, b
 
     let value = 0;
     let tiles = [];
+    let counts = [];
 
     // Check adding every tile to see if it improves the ukeire
     for (let addedTile = 1; addedTile < convertedHand.length; addedTile++) {
@@ -155,6 +159,7 @@ export function calculateUkeireUpgrades(hand, remainingTiles, shantenFunction, b
                 if (newUkeire > baseUkeire) {
                     value += convertedTiles[addedTile];
                     tiles.push({ tile: addedTile, discard: bestDiscard, count: convertedTiles[addedTile], resultingUkeire: newUkeire });
+                    counts.push(convertedTiles[addedTile]);
                 }
 
                 convertedHand[bestDiscard]++;
@@ -167,7 +172,8 @@ export function calculateUkeireUpgrades(hand, remainingTiles, shantenFunction, b
 
     return {
         value,
-        tiles
+        tiles,
+        counts
     };
 }
 

@@ -63,9 +63,9 @@ export default class ReplayTurn {
      * Adds a message comparing the efficiency of the player's discard with the most efficient discard.
      * @param {Function} t The i18next translation function.
      * @param {number} chosenTile The index of the chosen tile.
-     * @param {{value:number,tiles:number[]}} chosenUkeire The ukeire object for the chosen tile.
+     * @param {UkeireObject} chosenUkeire The ukeire object for the chosen tile.
      * @param {number} bestTile The index of the best tile.
-     * @param {{value:number,tiles:number[]}} bestUkeire The ukeire object for the best tile.
+     * @param {UkeireObject} bestUkeire The ukeire object for the best tile.
      * @param {number} shanten The hand's shanten.
      * @param {number} handUkeire The ukeire of the hand without considering tiles outside of it.
      */
