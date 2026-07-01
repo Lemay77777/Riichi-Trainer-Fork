@@ -257,9 +257,36 @@ class HistoryMessage extends React.Component {
                     ) : (
                         messageRows
                     )}
-                    {this.props.data.hand ? <a className="tenhouLink d-block mt-2 text-right" href={"http://tenhou.net/2/?q=" + this.props.data.hand} target="_blank" rel="noopener noreferrer">
-                        {t("history.tenhouLinkText")}
-                    </a> : ""}
+                    {this.props.data.hand ? (
+                        <div className="d-flex justify-content-end align-items-center mt-2">
+                            <button
+                                className="btn btn-link p-0 mr-2 tenhouLink"
+                                style={{ fontSize: '1rem', textDecoration: 'underline', border: 'none', background: 'none', color: this.state.copied ? '#28a745' : undefined }}
+                                onClick={() => {
+                                    if (navigator.clipboard && navigator.clipboard.writeText) {
+                                        navigator.clipboard.writeText(this.props.data.hand);
+                                    } else {
+                                        const el = document.createElement('textarea');
+                                        el.value = this.props.data.hand;
+                                        el.setAttribute('readonly', '');
+                                        el.style.position = 'absolute';
+                                        el.style.left = '-9999px';
+                                        document.body.appendChild(el);
+                                        el.select();
+                                        document.execCommand('copy');
+                                        document.body.removeChild(el);
+                                    }
+                                    this.setState({ copied: true });
+                                    setTimeout(() => this.setState({ copied: false }), 1500);
+                                }}
+                            >
+                                [{this.state.copied ? t("trainer.copied") : t("trainer.copyHand")}]
+                            </button>
+                            <a className="tenhouLink" href={"http://tenhou.net/2/?q=" + this.props.data.hand} target="_blank" rel="noopener noreferrer">
+                                {t("history.tenhouLinkText")}
+                            </a>
+                        </div>
+                    ) : ""}
                 </ListGroupItem>
             </Collapse>
         );
